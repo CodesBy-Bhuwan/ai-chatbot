@@ -38,4 +38,4 @@ jobs:
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/chatbot-ui:latest
           docker stop chatbot-ui || true
           docker rm chatbot-ui || true
-          docker run -d --name chatbot-ui -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/chatbot-ui:latest
+          docker run -d -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} --name chatbot-ui -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/chatbot-ui:latest
