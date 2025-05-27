@@ -1,0 +1,33 @@
+name: Deploy to Kubernetes
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+
+    - name: Set up Kubeconfig
+      uses: appleboy/scp-action@v0.1.3
+      with:
+        host: ${{ secrets.K8S_HOST }}
+        username: ${{ secrets.K8S_USER }}
+        key: ${{ secrets.K8S_KEY }}
+        source: ".kube/config"
+        target: "/home/${{ secrets.K8S_USER }}/.kube/config"
+
+    - name: Deploy to Kubernetes
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.K8S_HOST }}
+        username: ${{ secrets.K8S_USER }}
+        key: ${{ secrets.K8S_KEY }}
+        port: ${{ secrets.K8S_PORT || 22 }}
+        script: |
+          kubectl apply -f /home/${{ secrets.K8S_USER }}/repo/k8s/deployment.yaml
+          kubectl apply -f /home/${{ secrets.K8S_USER }}/repo/k8s/service.yaml
