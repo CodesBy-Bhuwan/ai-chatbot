@@ -20,7 +20,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/chatbot-ui:latest -f Chatbot-UI/ch
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/chatbot-ui:latest -f Chatbot-UI/chat
 
     - name: Push Docker image to Docker Hub
       run: |
