@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: chatbot
+  template:
+    metadata:
+      labels:
+        app: chatbot
+    spec:
+      containers:
+      - name: chatbot
+        image: your-dockerhub-username/aichatbot-ui:latest
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: chatbot-storage
+          mountPath: /app/data  # Adjust this to your app's storage path
+      volumes:
+      - name: chatbot-storage
+        persistentVolumeClaim:
+          claimName: chatbot-pvc
+
+
+#Persistacne Volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: chatbot-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/chatbot-data #Make sure to create this path manually where it is deployed
+    type: DirectoryOrCreate #Sometime this function doesn't works properly and deployment is not executed
+
+
+
+#Persistance Volume Claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: chatbot-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
