@@ -20,7 +20,6 @@ jobs:
 
     - name: Set Kubernetes Context
       run: |
-        kubectl config get-context
         kubectl config use-context kubernetes-admin@kubernetes
 
     - name: Deploy to Kubernetes
