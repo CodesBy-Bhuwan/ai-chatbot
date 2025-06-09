@@ -1,13 +1,12 @@
-
 version: '3.8'
 
 services:
-aichatbot-ui:
-image: "codesdocker/aichatbot-ui:latest"
-#    container_name: ""
-ports: 
-  - "3000":"3000"
-environment:
-  - NODE_ENV=prod
-restart: always
+  aichatbot-ui:
+    image: "codesdocker/aichatbot-ui:latest"
+#      container_name: ""
+    ports: 
+      - "3000:3000"
+    environment:
+      - NODE_ENV=prod
+    restart: always
 
