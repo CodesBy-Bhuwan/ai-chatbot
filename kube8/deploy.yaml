@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aichatbot-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aichatbot-ui
+  template:
+    metadata:
+      labels:
+        app: aichatbot-ui
+    spec:
+      containers:
+      - name: aichatbot-ui
+        image: codesdocker/aichatbot-ui:latest
+        ports:
+        - containerPort: 3000
