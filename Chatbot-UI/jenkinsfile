@@ -1,0 +1,29 @@
+pipeline {
+  agent any
+
+  environment {
+    KUBECONFIG = '/var/lib/jenkins/.kube/config'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        git branch: 'main', url: 'https://github.com/CodesBy-Bhuwan/ai-chatbot.git'
+      }
+    }
+
+   //Only kubernetes 
+
+    stage('Deploy to Kubernetes') {
+      steps {
+        echo "Applying kube8 manifests..."
+        sh 'ls -la'
+        sh 'cd k8s'
+        sh 'pwd'
+        sh 'kubectl apply -f kube8/deploy.yaml'
+        sh 'kubectl apply -f kube8/service.yaml'
+        // sh 'kubectl apply -f kube8/ingress.yaml || true'
+      }
+    }
+  }
+}
